@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Internship || Login</title>
+        <link rel="stylesheet" href="/CSS/gen.css" />
+        <link rel="stylesheet" href="/CSS/headfoot.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/JS/auth.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <div class="header-drop-down">
+                    <button class="header-drop-btn">&#9776;</button>
+                    <div class="header-drop-down-content">
+                        <a href="/">Home</a>
+                        <a href="/login?type=company">Hire Students</a>
+                        <a href="/login?type=student">Apply to Internship</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <center>
+                <div class="card" style="width: 300px">
+                    <div class="cheader">
+                        <p id="htitle">Login</p>
+                        <p id="login_type"></p>
+                    </div>
+                    <form action="/" method="POST">
+                        <input
+                            type="text"
+                            name="type"
+                            value=""
+                            id="input_login_type"
+                            hidden
+                        />
+                        <input
+                            type="text"
+                            name="username"
+                            id="in_user"
+                            placeholder="Username"
+                            required
+                        />
+                        <br />
+                        <input
+                            type="password"
+                            name="password"
+                            id="in_pass"
+                            placeholder="Password"
+                            required
+                        />
+                        <br />
+                        <input type="submit" value="Login" id="true" />
+                        <br />
+                        <a href="/register">
+                            <input
+                                type="button"
+                                value="New User"
+                                id="primary"
+                            />
+                        </a>
+                    </form>
+                </div>
+            </center>
+        </div>
+        <div class="footer">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <p id="subtitle">
+                    <b>Contact Me:</b><br /><b>Mail:</b>
+                    malaybhavsar290@gmail.com<br /><b>Institute:</b>A D Patel
+                    Institute of Technology
+                </p>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                const t = getLoginType();
+                document.getElementById("login_type").innerText = t;
+                document.getElementById("input_login_type").value = t;
+            });
+        </script>
+    </body>
+</html>
