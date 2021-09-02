@@ -15,6 +15,12 @@ route.get("/login", (req, res) => {
 route.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/register.html"));
 });
+route.get("/cdashboard", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
+});
+route.get("/sdashboard", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
+});
 
 // Configuring the apps.
 app.use(express.static("public"));

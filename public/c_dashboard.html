@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Internship || Login</title>
+        <link rel="stylesheet" href="/CSS/gen.css" />
+        <link rel="stylesheet" href="/CSS/headfoot.css" />
+        <link rel="stylesheet" href="/CSS/dash.css" />
+        <link rel="stylesheet" href="/CSS/post.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/JS/auth.js"></script>
+        <script src="/JS/tab.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <div class="header-drop-down">
+                    <button class="header-drop-btn">&#9776;</button>
+                    <div class="header-drop-down-content">
+                        <a href="/">Home</a>
+                        <a href="/login?type=company">Hire Students</a>
+                        <a href="/login?type=student">Apply to Internship</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="tab">
+                <button class="tabbtn" onclick="openTab(event, '1')">
+                    Home
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '2')">
+                    Review Application
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '3')">
+                    Process Application
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '4')">
+                    Add Internship
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '5')">
+                    View Internships
+                </button>
+            </div>
+
+            <div id="1" class="tabcontent">
+                <p id="title">Home</p>
+            </div>
+            <div id="2" class="tabcontent">
+                <p id="title">Review Applications</p>
+            </div>
+            <div id="3" class="tabcontent">
+                <p id="title">Process Application</p>
+            </div>
+            <div id="4" class="tabcontent">
+                <p id="title">Add Internship</p>
+                <center>
+                    <div class="card" style="width: 650px">
+                        <div class="cheader">
+                            <p style="padding-top: 10px">Register</p>
+                        </div>
+                        <form action="#" method="POST">
+                            <input type="text" name="title" id="" />
+                            <input type="text" name="company" id="" />
+                            <input type="text" name="duration" id="" />
+                            <input type="text" name="stripend" id="" />
+                            <input type="text" name="locations" id="" />
+                            <input type="text" name="positions" id="" />
+                            <input type="text" name="benefits" id="" />
+                            <input type="submit" value="Register" id="true" />
+                            <br />
+                            <a href="/login">
+                                <input
+                                    type="button"
+                                    value="Already Registered?"
+                                    id="primary"
+                                />
+                            </a>
+                            <br />
+                        </form>
+                    </div>
+                </center>
+            </div>
+            <div id="5" class="tabcontent" style="overflow: scroll">
+                <p id="title">View Internships</p>
+                <div class="applications">
+                    <div class="post">
+                        <div class="left">
+                            <p id="heading">Software Development Internship</p>
+                            <p id="desc">
+                                Collobrate with team members to developed
+                                cutting edge softwares.
+                            </p>
+                            <table id="body">
+                                <tr>
+                                    <td>
+                                        <b>Company</b>
+                                    </td>
+                                    <td>LeoTech Inc</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Duration</b>
+                                    </td>
+                                    <td>2 Months</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Stripend</b>
+                                    </td>
+                                    <td>$300/month</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Location</b>
+                                    </td>
+                                    <td>Anand, Gujarat</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Positions</b>
+                                    </td>
+                                    <td>31</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Benefits</b>
+                                    </td>
+                                    <td>Completion Certificate & Goodies</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input
+                                type="button"
+                                value="Contact Us"
+                                id="primary"
+                            /><br />
+                            <input
+                                type="button"
+                                value="Apply Now"
+                                id="primary"
+                            />
+                            <br />
+                            <input type="button" value="Save" id="primary" />
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="left">
+                            <p id="heading">Software Development Internship</p>
+                            <p id="desc">
+                                Collobrate with team members to developed
+                                cutting edge softwares.
+                            </p>
+                            <table id="body">
+                                <tr>
+                                    <td>
+                                        <b>Company</b>
+                                    </td>
+                                    <td>LeoTech Inc</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Duration</b>
+                                    </td>
+                                    <td>2 Months</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Stripend</b>
+                                    </td>
+                                    <td>$300/month</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Location</b>
+                                    </td>
+                                    <td>Anand, Gujarat</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Positions</b>
+                                    </td>
+                                    <td>31</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Benefits</b>
+                                    </td>
+                                    <td>Completion Certificate & Goodies</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input
+                                type="button"
+                                value="Contact Us"
+                                id="primary"
+                            /><br />
+                            <input
+                                type="button"
+                                value="Apply Now"
+                                id="primary"
+                            />
+                            <br />
+                            <input type="button" value="Save" id="primary" />
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="left">
+                            <p id="heading">Software Development Internship</p>
+                            <p id="desc">
+                                Collobrate with team members to developed
+                                cutting edge softwares.
+                            </p>
+                            <table id="body">
+                                <tr>
+                                    <td>
+                                        <b>Company</b>
+                                    </td>
+                                    <td>LeoTech Inc</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Duration</b>
+                                    </td>
+                                    <td>2 Months</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Stripend</b>
+                                    </td>
+                                    <td>$300/month</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Location</b>
+                                    </td>
+                                    <td>Anand, Gujarat</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Positions</b>
+                                    </td>
+                                    <td>31</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Benefits</b>
+                                    </td>
+                                    <td>Completion Certificate & Goodies</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input
+                                type="button"
+                                value="Contact Us"
+                                id="primary"
+                            /><br />
+                            <input
+                                type="button"
+                                value="Apply Now"
+                                id="primary"
+                            />
+                            <br />
+                            <input type="button" value="Save" id="primary" />
+                        </div>
+                    </div>
+                    <div class="post">
+                        <div class="left">
+                            <p id="heading">Software Development Internship</p>
+                            <p id="desc">
+                                Collobrate with team members to developed
+                                cutting edge softwares.
+                            </p>
+                            <table id="body">
+                                <tr>
+                                    <td>
+                                        <b>Company</b>
+                                    </td>
+                                    <td>LeoTech Inc</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Duration</b>
+                                    </td>
+                                    <td>2 Months</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Stripend</b>
+                                    </td>
+                                    <td>$300/month</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Location</b>
+                                    </td>
+                                    <td>Anand, Gujarat</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Positions</b>
+                                    </td>
+                                    <td>31</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <b>Benefits</b>
+                                    </td>
+                                    <td>Completion Certificate & Goodies</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="right">
+                            <input
+                                type="button"
+                                value="Contact Us"
+                                id="primary"
+                            /><br />
+                            <input
+                                type="button"
+                                value="Apply Now"
+                                id="primary"
+                            />
+                            <br />
+                            <input type="button" value="Save" id="primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <p id="subtitle">
+                    <b>Contact Me:</b><br /><b>Mail:</b>
+                    malaybhavsar290@gmail.com<br /><b>Institute:</b>A D Patel
+                    Institute of Technology
+                </p>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {});
+        </script>
+    </body>
+</html>

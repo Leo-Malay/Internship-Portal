@@ -10,12 +10,6 @@
     background-color: #12232e;
     cursor: pointer;
 }
-.header {
-    margin-bottom: 20px;
-}
-.footer {
-    margin-top: 20px;
-}
 .subheader {
     float: right;
     display: inline-flex;
@@ -46,6 +40,7 @@
 .header-drop-down {
     position: relative;
     display: inline-block;
+    font-size: 13px;
 }
 .header-drop-down-content {
     display: none;
@@ -125,7 +120,7 @@
         font-size: 15px;
     }
     .header-drop-down-content a {
-        width: 100px;
+        width: 130px;
         padding: 12px;
     }
 }
