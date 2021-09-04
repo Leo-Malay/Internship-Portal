@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Internship || Student Dashboard</title>
+        <link rel="stylesheet" href="/CSS/gen.css" />
+        <link rel="stylesheet" href="/CSS/headfoot.css" />
+        <link rel="stylesheet" href="/CSS/dash.css" />
+        <link rel="stylesheet" href="/CSS/post.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/JS/gen.js"></script>
+        <script src="/JS/tab.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <p id="greet">Hello</p>
+                <div class="header-drop-down">
+                    <button class="header-drop-btn">&#9776;</button>
+                    <div class="header-drop-down-content">
+                        <a href="/">Home</a>
+                        <a href="/contactus">Contact Us</a>
+                        <a href="/">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="tab">
+                <button class="tabbtn" onclick="openTab(event, '1')">
+                    Home
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '2')">
+                    View Internships
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '3')">
+                    My Applications
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '4')">
+                    Profile
+                </button>
+                <button class="tabbtn" onclick="openTab(event, '5')">
+                    Report
+                </button>
+            </div>
+
+            <div id="1" class="tabcontent">
+                <center>
+                    <p id="title">Home</p>
+                </center>
+            </div>
+            <div id="2" class="tabcontent">
+                <center>
+                    <p id="title">View Internship</p>
+                </center>
+            </div>
+            <div id="3" class="tabcontent">
+                <center>
+                    <p id="title">My Applications</p>
+                </center>
+            </div>
+            <div id="4" class="tabcontent">
+                <center>
+                    <p id="title">Profile</p>
+                </center>
+            </div>
+            <div id="5" class="tabcontent">
+                <center>
+                    <p id="title">Report</p>
+                </center>
+                <p>
+                    Please tell us in detail what happened! Even you feel like
+                    it's wrong but its not, Dont worry Just report it. It will
+                    help us imporve over website and it's services. Serious
+                    actions will be taken againsts fraud!
+                </p>
+                <form action="#" method="POST">
+                    <textarea
+                        name="details"
+                        id=""
+                        cols="50"
+                        rows="10"
+                        placeholder="Mentions names/numbers which will help us get to the issue more faster"
+                    ></textarea>
+                    <br />
+                    <input
+                        type="submit"
+                        value="Report"
+                        id="false"
+                        style="width: 80px; height: 30px"
+                    />
+                </form>
+            </div>
+        </div>
+        <div class="footer">
+            <p id="title">LEO-Intern</p>
+            <p id="subtitle">Connecting Students & Companies</p>
+            <div class="subheader">
+                <p id="subtitle">
+                    <b>Contact Me:</b><br /><b>Mail:</b>
+                    malaybhavsar290@gmail.com<br /><b>Institute:</b>A D Patel
+                    Institute of Technology
+                </p>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                const up = getUrlParam();
+                document.getElementById("greet").innerText +=
+                    " " + up.get("name");
+                openTab(event, "1");
+            });
+        </script>
+    </body>
+</html>

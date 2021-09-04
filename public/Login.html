@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="/CSS/gen.css" />
         <link rel="stylesheet" href="/CSS/headfoot.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="/JS/auth.js"></script>
+        <script src="/JS/gen.js"></script>
     </head>
     <body>
         <div class="header">
@@ -32,7 +32,7 @@
                         <p id="htitle">Login</p>
                         <p id="login_type"></p>
                     </div>
-                    <form action="/" method="POST">
+                    <form action="/login" method="POST">
                         <input
                             type="text"
                             name="type"
@@ -82,9 +82,10 @@
         </div>
         <script>
             $(document).ready(function () {
-                const t = getLoginType();
-                document.getElementById("login_type").innerText = t;
-                document.getElementById("input_login_type").value = t;
+                const t = getUrlParam();
+                document.getElementById("login_type").innerText = t.get("type");
+                document.getElementById("input_login_type").value =
+                    t.get("type");
             });
         </script>
     </body>

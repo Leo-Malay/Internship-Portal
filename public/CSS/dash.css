@@ -30,8 +30,15 @@
     float: left;
     display: none;
     width: 88%;
-    padding: 0px 12px;
-    border: 1px solid #ccc;
-    border-left: none;
+    padding: 10px 12px;
     height: 100%;
+}
+.tabcontent #title {
+    color: #fff;
+    background-color: #12232e;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px 20px;
+    width: 50%;
 }

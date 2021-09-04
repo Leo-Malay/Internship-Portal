@@ -21,6 +21,22 @@ route.get("/cdashboard", (req, res) => {
 route.get("/sdashboard", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
 });
+route.post("/login", (req, res) => {
+    var query = {
+        type: req.body.type,
+        username: req.body.username,
+        password: req.body.password,
+    };
+    if (query.type && query.username && query.password) {
+        if (query.type == "company") {
+            res.redirect("/cdashboard?name=" + query.username);
+        } else {
+            res.redirect("/sdashboard?name=" + query.username);
+        }
+    } else {
+        res.json({ success: false, msg: "Missing Feilds" });
+    }
+});
 
 // Configuring the apps.
 app.use(express.static("public"));

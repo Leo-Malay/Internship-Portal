@@ -4,13 +4,13 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Internship || Login</title>
+        <title>Internship || Company Dashboard</title>
         <link rel="stylesheet" href="/CSS/gen.css" />
         <link rel="stylesheet" href="/CSS/headfoot.css" />
         <link rel="stylesheet" href="/CSS/dash.css" />
         <link rel="stylesheet" href="/CSS/post.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="/JS/auth.js"></script>
+        <script src="/JS/gen.js"></script>
         <script src="/JS/tab.js"></script>
     </head>
     <body>
@@ -18,6 +18,7 @@
             <p id="title">LEO-Intern</p>
             <p id="subtitle">Connecting Students & Companies</p>
             <div class="subheader">
+                <p id="greet">Hello</p>
                 <div class="header-drop-down">
                     <button class="header-drop-btn">&#9776;</button>
                     <div class="header-drop-down-content">
@@ -48,45 +49,105 @@
             </div>
 
             <div id="1" class="tabcontent">
-                <p id="title">Home</p>
+                <center>
+                    <p id="title">Home</p>
+                </center>
             </div>
             <div id="2" class="tabcontent">
-                <p id="title">Review Applications</p>
+                <center>
+                    <p id="title">Review Applications</p>
+                </center>
             </div>
             <div id="3" class="tabcontent">
-                <p id="title">Process Application</p>
+                <center>
+                    <p id="title">Process Application</p>
+                </center>
             </div>
             <div id="4" class="tabcontent">
-                <p id="title">Add Internship</p>
                 <center>
-                    <div class="card" style="width: 650px">
+                    <div class="card" style="width: 650px; margin: 20px 10px">
                         <div class="cheader">
-                            <p style="padding-top: 10px">Register</p>
+                            <p style="padding-top: 10px">New Internship</p>
                         </div>
                         <form action="#" method="POST">
-                            <input type="text" name="title" id="" />
-                            <input type="text" name="company" id="" />
-                            <input type="text" name="duration" id="" />
-                            <input type="text" name="stripend" id="" />
-                            <input type="text" name="locations" id="" />
-                            <input type="text" name="positions" id="" />
-                            <input type="text" name="benefits" id="" />
-                            <input type="submit" value="Register" id="true" />
+                            <input
+                                type="text"
+                                name="title"
+                                id=""
+                                placeholder="Title"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="company"
+                                id=""
+                                placeholder="Company"
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                id=""
+                                cols="30"
+                                rows="10"
+                                placeholder="Enter description about the job"
+                                style="
+                                    width: 525px;
+                                    border: none;
+                                    border-bottom: 1px solid #000;
+                                    padding: 20px 5px;
+                                    resize: none;
+                                "
+                            ></textarea>
+                            <input
+                                type="text"
+                                name="duration"
+                                id=""
+                                placeholder="Duration (Months)"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="stripend"
+                                id=""
+                                placeholder="Stripend ($)"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="locations"
+                                id=""
+                                placeholder="Locations"
+                                required
+                            />
+                            <input
+                                type="number"
+                                name="positions"
+                                id=""
+                                placeholder="Positions"
+                                required
+                            />
+                            <input
+                                type="text"
+                                name="benefits"
+                                id=""
+                                placeholder="Benefits"
+                                required
+                            />
                             <br />
-                            <a href="/login">
-                                <input
-                                    type="button"
-                                    value="Already Registered?"
-                                    id="primary"
-                                />
-                            </a>
+                            <input type="submit" value="Register" id="true" />
                             <br />
                         </form>
                     </div>
                 </center>
             </div>
-            <div id="5" class="tabcontent" style="overflow: scroll">
-                <p id="title">View Internships</p>
+            <div
+                id="5"
+                class="tabcontent"
+                style="overflow-x: scroll; overflow-y: hidden"
+            >
+                <center>
+                    <p id="title">View Internships</p>
+                </center>
                 <div class="applications">
                     <div class="post">
                         <div class="left">
@@ -367,7 +428,12 @@
             </div>
         </div>
         <script>
-            $(document).ready(function () {});
+            $(document).ready(function () {
+                const up = getUrlParam();
+                document.getElementById("greet").innerText +=
+                    " " + up.get("name");
+                openTab(event, "1");
+            });
         </script>
     </body>
 </html>
