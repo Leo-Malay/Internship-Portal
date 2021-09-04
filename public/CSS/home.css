@@ -1,0 +1,32 @@
+.section1 {
+    background-color: #488cb3;
+    color: #fff;
+}
+.section1 p#title {
+    padding-top: 10vw;
+    font-size: 40px;
+    font-weight: 900;
+    text-align: center;
+}
+.section1 p#desc {
+    padding-top: 2vw;
+    font-size: 15px;
+    width: 400px;
+    text-align: center;
+}
+.section1 input {
+    padding: 5px 20px;
+    margin: 20px 5px;
+    margin-bottom: 10vw;
+    background-color: inherit;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+.section1 input:hover {
+    color: #659dbd;
+    background-color: #fff;
+    transition-duration: 0.5s;
+}
+.section3 {
+}
