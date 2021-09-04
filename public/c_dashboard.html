@@ -69,7 +69,7 @@
                         <div class="cheader">
                             <p style="padding-top: 10px">New Internship</p>
                         </div>
-                        <form action="#" method="POST">
+                        <form action="/add_internship" method="POST">
                             <input
                                 type="text"
                                 name="title"
@@ -432,7 +432,7 @@
                 const up = getUrlParam();
                 document.getElementById("greet").innerText +=
                     " " + up.get("name");
-                openTab(event, "1");
+                //openTab(event, "1");
             });
         </script>
     </body>

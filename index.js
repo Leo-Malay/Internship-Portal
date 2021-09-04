@@ -9,6 +9,9 @@ const route = express.Router();
 route.get("/", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/Home.html"));
 });
+route.get("/contactus", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/ContactUs.html"));
+});
 route.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/Login.html"));
 });
@@ -37,7 +40,14 @@ route.post("/login", (req, res) => {
         res.json({ success: false, msg: "Missing Feilds" });
     }
 });
-
+route.post("/add_internship", (req, res) => {
+    var query = {};
+    if (query) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, msg: "Missing Feilds" });
+    }
+});
 // Configuring the apps.
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: !0 }));
