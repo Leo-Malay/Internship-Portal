@@ -6,9 +6,12 @@ const app = express();
 const route = express.Router();
 
 // Configuring the paths.
-route.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/public/Home.html"));
-});
+route.get("/favicon", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/IMG/favicon.ico"));
+}),
+    route.get("/", (req, res) => {
+        res.sendFile(path.join(__dirname + "/public/Home.html"));
+    });
 route.get("/contactus", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/ContactUs.html"));
 });
@@ -62,6 +65,7 @@ app.use(express.urlencoded({ extended: !0 }));
 app.use(express.json());
 app.use("/", route);
 // listening at port 8080
-app.listen(8080, () => {
+const port = process.env.PORT || 2905;
+app.listen(port, () => {
     console.log("Listening at port 8080");
 });
