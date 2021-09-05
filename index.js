@@ -48,6 +48,14 @@ route.post("/add_internship", (req, res) => {
         res.json({ success: false, msg: "Missing Feilds" });
     }
 });
+route.post("/report", (req, res) => {
+    var query = { details: req.body.details, isResolved: 0, isDeleted: 0 };
+    if (query) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, msg: "Missing Feilds" });
+    }
+});
 // Configuring the apps.
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: !0 }));

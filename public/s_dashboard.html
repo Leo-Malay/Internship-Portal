@@ -15,7 +15,9 @@
     </head>
     <body>
         <div class="header">
-            <p id="title">LEO-Intern</p>
+            <a href="/">
+                <p id="title">LEO-Intern</p>
+            </a>
             <p id="subtitle">Connecting Students & Companies</p>
             <div class="subheader">
                 <p id="greet">Hello</p>
@@ -71,33 +73,36 @@
             <div id="5" class="tabcontent">
                 <center>
                     <p id="title">Report</p>
+
+                    <p style="width: 50%; padding: 1vw">
+                        Please tell us in detail what happened! Even you feel
+                        like it's wrong but its not, Dont worry Just report it.
+                        It will help us imporve over website and it's services.
+                        Serious actions will be taken againsts fraud!
+                    </p>
+                    <form action="/report" method="POST">
+                        <textarea
+                            name="details"
+                            id=""
+                            cols="50"
+                            rows="10"
+                            placeholder="Mentions names/numbers which will help us get to the issue more faster"
+                        ></textarea>
+                        <br />
+                        <input
+                            type="submit"
+                            value="Report"
+                            id="false"
+                            style="width: 80px; height: 30px"
+                        />
+                    </form>
                 </center>
-                <p>
-                    Please tell us in detail what happened! Even you feel like
-                    it's wrong but its not, Dont worry Just report it. It will
-                    help us imporve over website and it's services. Serious
-                    actions will be taken againsts fraud!
-                </p>
-                <form action="#" method="POST">
-                    <textarea
-                        name="details"
-                        id=""
-                        cols="50"
-                        rows="10"
-                        placeholder="Mentions names/numbers which will help us get to the issue more faster"
-                    ></textarea>
-                    <br />
-                    <input
-                        type="submit"
-                        value="Report"
-                        id="false"
-                        style="width: 80px; height: 30px"
-                    />
-                </form>
             </div>
         </div>
         <div class="footer">
-            <p id="title">LEO-Intern</p>
+            <a href="/">
+                <p id="title">LEO-Intern</p>
+            </a>
             <p id="subtitle">Connecting Students & Companies</p>
             <div class="subheader">
                 <p id="subtitle">
@@ -112,7 +117,6 @@
                 const up = getUrlParam();
                 document.getElementById("greet").innerText +=
                     " " + up.get("name");
-                openTab(event, "1");
             });
         </script>
     </body>

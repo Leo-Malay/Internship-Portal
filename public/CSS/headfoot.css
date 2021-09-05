@@ -10,6 +10,11 @@
     background-color: #12232e;
     cursor: pointer;
 }
+.header a,
+.footer a {
+    color: #eefbfb;
+}
+
 .subheader {
     float: right;
     display: inline-flex;
@@ -27,7 +32,7 @@
 }
 .header #title,
 .footer #title {
-    font-weight: 800;
+    font-weight: 600;
     float: left;
 }
 .header #subtitle,
