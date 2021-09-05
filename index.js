@@ -65,7 +65,6 @@ app.use(express.urlencoded({ extended: !0 }));
 app.use(express.json());
 app.use("/", route);
 // listening at port 8080
-const port = process.env.PORT || 2905;
-app.listen(port, () => {
+app.listen(process.env.PORT || 2906, () => {
     console.log("Listening at port 8080");
 });
