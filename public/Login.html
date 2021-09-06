@@ -34,6 +34,7 @@
                         <p id="htitle">Login</p>
                         <p id="login_type"></p>
                     </div>
+                    <p style="color: tomato" id="err_msg"></p>
                     <form action="/login" method="POST">
                         <input
                             type="text"
@@ -44,9 +45,9 @@
                         />
                         <input
                             type="text"
-                            name="username"
+                            name="enrollment"
                             id="in_user"
-                            placeholder="Username"
+                            placeholder="Enrollment Id"
                             required
                         />
                         <br />
@@ -60,7 +61,7 @@
                         <br />
                         <input type="submit" value="Login" id="true" />
                         <br />
-                        <a href="/register">
+                        <a href="/register" id="newstu">
                             <input
                                 type="button"
                                 value="New User"
@@ -87,9 +88,29 @@
         <script>
             $(document).ready(function () {
                 const t = getUrlParam();
-                document.getElementById("login_type").innerText = t.get("type");
-                document.getElementById("input_login_type").value =
-                    t.get("type");
+                if (t.get("type")) {
+                    document.getElementById("login_type").innerText =
+                        t.get("type");
+                    document.getElementById("input_login_type").value =
+                        t.get("type");
+                    if (t.get("type") == "company") {
+                        document.getElementById("newstu").style =
+                            "display:none;";
+                    }
+                } else {
+                    document.getElementById("login_type").innerText =
+                        "Invalid URL-Goto official website";
+                    document.getElementById("input_login_type").value = null;
+                }
+                if (t.get("error") == 1) {
+                    document.getElementById("err_msg").innerText = t.get("msg");
+                } else if (t.get("error") == 2) {
+                    document.getElementById("err_msg").innerText = t.get("msg");
+                } else if (t.get("error") == 3) {
+                    document.getElementById("err_msg").innerText = t.get("msg");
+                } else if (t.get("error") == 4) {
+                    document.getElementById("err_msg").innerText = t.get("msg");
+                }
             });
         </script>
     </body>

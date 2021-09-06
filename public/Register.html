@@ -7,6 +7,8 @@
         <title>Internship || Register</title>
         <link rel="stylesheet" href="/CSS/gen.css" />
         <link rel="stylesheet" href="/CSS/headfoot.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="/JS/gen.js"></script>
     </head>
     <body>
         <div class="header">
@@ -31,6 +33,7 @@
                     <div class="cheader">
                         <p style="padding-top: 10px">Register</p>
                     </div>
+                    <p style="color: tomato" id="err_msg"></p>
                     <form action="#" method="POST">
                         <input
                             type="text"
@@ -64,7 +67,27 @@
                             required
                         />
                         <br />
-                        <select name="institite" id="" required>
+                        <input
+                            type="password"
+                            name="password"
+                            id=""
+                            placeholder="Password"
+                            minlength="8"
+                            required
+                            autocomplete="new-password"
+                        />
+                        <input
+                            type="password"
+                            name="cpassword"
+                            id=""
+                            placeholder="Confirm Password"
+                            minlength="8"
+                            required
+                            autocomplete="new-password"
+                        />
+                        <br />
+
+                        <select name="institute" id="" required>
                             <option value="">Institute</option>
                             <option value="ADIT">ADIT</option>
                             <option value="GCET">GCET</option>
@@ -139,7 +162,7 @@
                         </div>
                         <input type="submit" value="Register" id="true" />
                         <br />
-                        <a href="/login">
+                        <a href="/login?type=student">
                             <input
                                 type="button"
                                 value="Already Registered?"
@@ -164,5 +187,23 @@
                 </p>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                const t = getUrlParam();
+                if (t.get("error") == 1) {
+                    document.getElementById("err_msg").innerText =
+                        "Unable to create Account! Try again later";
+                } else if (t.get("error") == 2) {
+                    document.getElementById("err_msg").innerText =
+                        "Missing Feilds";
+                } else if (t.get("error") == 3) {
+                    document.getElementById("err_msg").innerText =
+                        "Password Mismatch";
+                } else if (t.get("error") == 4) {
+                    document.getElementById("err_msg").innerText =
+                        "User Already Exists";
+                }
+            });
+        </script>
     </body>
 </html>
