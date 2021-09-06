@@ -10,7 +10,8 @@
         "Pass": "A9zXW7CXWdQIlje9",
         "name": {
             "company_user": "company_user",
-            "student_user": "student_user"
+            "student_user": "student_user",
+            "report": "report"
         }
     },
     "AUTH": {

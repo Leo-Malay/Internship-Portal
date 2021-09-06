@@ -21,17 +21,47 @@ route.get("/contactus", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/ContactUs.html"));
 });
 route.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname + "/public/Login.html"));
+    var token = VerifyToken(req.cookies.token);
+    if (token.success == true) {
+        if (token.data.type == "company") {
+            res.sendFile(
+                path.join(
+                    __dirname +
+                        "/public/c_dashboard.html?name=" +
+                        token.data.name
+                )
+            );
+        } else {
+            res.sendFile(
+                path.join(
+                    __dirname +
+                        "/public/s_dashboard.html?name=" +
+                        token.data.name
+                )
+            );
+        }
+    } else {
+        res.sendFile(path.join(__dirname + "/public/Login.html"));
+    }
 });
 route.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/Register.html"));
 });
 route.get("/cdashboard", (req, res) => {
-    res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
+    var token = VerifyToken(req.cookies.token);
+    if (token.success == true && token.data.type == "company") {
+        res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
+    } else {
+        res.redirect("/");
+    }
 });
 route.get("/sdashboard", (req, res) => {
-    console.log(req.query, req.cookie);
-    res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
+    var token = VerifyToken(req.cookies.token);
+    if (token.success == true && token.data.type == "student") {
+        res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
+    } else {
+        res.redirect("/");
+    }
 });
 // Login and Registration
 route.post("/register", (req, res) => {
@@ -83,7 +113,6 @@ route.post("/register", (req, res) => {
                                     query
                                 )
                                 .then((result1) => {
-                                    console.log(result1);
                                     if (result1.insertedId) {
                                         res.redirect("/login?type=student");
                                     } else {
@@ -125,8 +154,10 @@ route.post("/login", (req, res) => {
                                 if (result1 === true) {
                                     var token = GenToken(
                                         {
-                                            uid: db.getID(result0._id),
+                                            uid: db.getOID(result0._id),
                                             enrollment: result0.enrollment,
+                                            fname: result0.fname,
+                                            type: "company",
                                             isDeleted: 0,
                                         },
                                         1
@@ -145,11 +176,10 @@ route.post("/login", (req, res) => {
                                                 result1.lastErrorObject
                                                     .updatedExisting === true
                                             ) {
+                                                res.cookie("token", token);
                                                 res.redirect(
                                                     "/cdashboard?name=" +
-                                                        result0.fname +
-                                                        "&token=" +
-                                                        token
+                                                        result0.fname
                                                 );
                                             } else {
                                                 res.redirect(
@@ -188,6 +218,8 @@ route.post("/login", (req, res) => {
                                         {
                                             uid: db.getOID(result0._id),
                                             enrollment: result0.enrollment,
+                                            fname: result0.fname,
+                                            type: "student",
                                             isDeleted: 0,
                                         },
                                         1
@@ -209,9 +241,7 @@ route.post("/login", (req, res) => {
                                                 res.cookie("token", token);
                                                 res.redirect(
                                                     "/sdashboard?name=" +
-                                                        result0.fname +
-                                                        "&token=" +
-                                                        token
+                                                        result0.fname
                                                 );
                                             } else {
                                                 res.redirect(
@@ -233,9 +263,22 @@ route.post("/login", (req, res) => {
         res.redirect("/login?type=student&error=1&msg=Missing Feilds");
     }
 });
+route.post("/logout", (req, res) => {
+    res.clearCookie("token");
+    res.redirect("/");
+});
 // Company portal
 route.post("/add_internship", (req, res) => {
-    var query = {};
+    var query = {
+        title: req.body.title,
+        company: req.body.company,
+        description: req.body.description,
+        duration: req.body.duration,
+        stripend: req.body.stripend,
+        locations: req.body.locations,
+        positions: req.body.positions,
+        benefits: req.body.benefits,
+    };
     if (query) {
         res.json({ success: true });
     } else {
@@ -246,9 +289,22 @@ route.post("/add_internship", (req, res) => {
 route.post("/report", (req, res) => {
     var token = VerifyToken(req.cookies.token);
     if (token.success == true) {
-        var query = { details: req.body.details, isResolved: 0, isDeleted: 0 };
-        if (query) {
-            res.json({ success: true });
+        var query = {
+            details: req.body.details,
+            isResolved: 0,
+            isDeleted: 0,
+            createDate: Date.now(),
+        };
+        if (query.details) {
+            db_method
+                .Insert(config.get("DB.name.report"), query)
+                .then((result0) => {
+                    if (result0.insertedId) {
+                        res.redirect("back");
+                    } else {
+                        res.json({ success: false, msg: "Missing Feilds" });
+                    }
+                });
         } else {
             res.json({ success: false, msg: "Missing Feilds" });
         }
