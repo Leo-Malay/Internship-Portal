@@ -8,10 +8,10 @@ const route = express.Router();
 // Configuring the paths.
 route.get("/favicon", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/IMG/favicon.ico"));
-}),
-    route.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname + "/public/Home.html"));
-    });
+});
+route.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname + "/public/Home.html"));
+});
 route.get("/contactus", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/ContactUs.html"));
 });
