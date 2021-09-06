@@ -22,23 +22,12 @@ route.get("/contactus", (req, res) => {
 });
 route.get("/login", (req, res) => {
     var token = VerifyToken(req.cookies.token);
+    console.log(token.data);
     if (token.success == true) {
         if (token.data.type == "company") {
-            res.sendFile(
-                path.join(
-                    __dirname +
-                        "/public/c_dashboard.html?name=" +
-                        token.data.name
-                )
-            );
+            res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
         } else {
-            res.sendFile(
-                path.join(
-                    __dirname +
-                        "/public/s_dashboard.html?name=" +
-                        token.data.name
-                )
-            );
+            res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
         }
     } else {
         res.sendFile(path.join(__dirname + "/public/Login.html"));
