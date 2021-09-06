@@ -2,8 +2,10 @@ const express = require("express");
 const path = require("path");
 const config = require("config");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
 const db = require("./db");
 const db_method = require("./db_method");
+const { GenToken, VerifyToken } = require("./token");
 // Defining the app.
 const app = express();
 const route = express.Router();
@@ -28,8 +30,10 @@ route.get("/cdashboard", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
 });
 route.get("/sdashboard", (req, res) => {
+    console.log(req.query, req.cookie);
     res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
 });
+// Login and Registration
 route.post("/register", (req, res) => {
     var query = {
         fname: req.body.fname,
@@ -45,7 +49,6 @@ route.post("/register", (req, res) => {
         createDate: Date.now(),
         token: "",
     };
-    console.log(query);
     if (query.password !== req.body.cpassword) {
         res.redirect("/register?error=3");
     } else if (
@@ -115,7 +118,7 @@ route.post("/login", (req, res) => {
                         );
                     } else {
                         bcrypt.compare(
-                            payload.password,
+                            query.password,
                             result0.password,
                             function (err, result1) {
                                 if (err) throw err;
@@ -176,14 +179,14 @@ route.post("/login", (req, res) => {
                         );
                     } else {
                         bcrypt.compare(
-                            payload.password,
+                            query.password,
                             result0.password,
                             function (err, result1) {
                                 if (err) throw err;
                                 if (result1 === true) {
                                     var token = GenToken(
                                         {
-                                            uid: db.getID(result0._id),
+                                            uid: db.getOID(result0._id),
                                             enrollment: result0.enrollment,
                                             isDeleted: 0,
                                         },
@@ -203,6 +206,7 @@ route.post("/login", (req, res) => {
                                                 result1.lastErrorObject
                                                     .updatedExisting === true
                                             ) {
+                                                res.cookie("token", token);
                                                 res.redirect(
                                                     "/sdashboard?name=" +
                                                         result0.fname +
@@ -229,7 +233,7 @@ route.post("/login", (req, res) => {
         res.redirect("/login?type=student&error=1&msg=Missing Feilds");
     }
 });
-
+// Company portal
 route.post("/add_internship", (req, res) => {
     var query = {};
     if (query) {
@@ -238,18 +242,25 @@ route.post("/add_internship", (req, res) => {
         res.json({ success: false, msg: "Missing Feilds" });
     }
 });
+// Students portal
 route.post("/report", (req, res) => {
-    var query = { details: req.body.details, isResolved: 0, isDeleted: 0 };
-    if (query) {
-        res.json({ success: true });
+    var token = VerifyToken(req.cookies.token);
+    if (token.success == true) {
+        var query = { details: req.body.details, isResolved: 0, isDeleted: 0 };
+        if (query) {
+            res.json({ success: true });
+        } else {
+            res.json({ success: false, msg: "Missing Feilds" });
+        }
     } else {
-        res.json({ success: false, msg: "Missing Feilds" });
+        res.json({ success: false, msg: "Invalid Token" });
     }
 });
 // Configuring the apps.
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: !0 }));
 app.use(express.json());
+app.use(cookieParser());
 app.use("/", route);
 // listening at port 8080
 db.connect((err) => {
