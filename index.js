@@ -19,7 +19,7 @@ route.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/Login.html"));
 });
 route.get("/register", (req, res) => {
-    res.sendFile(path.join(__dirname + "/public/register.html"));
+    res.sendFile(path.join(__dirname + "/public/Register.html"));
 });
 route.get("/cdashboard", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
