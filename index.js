@@ -263,16 +263,32 @@ route.post("/add_internship", (req, res) => {
         company: req.body.company,
         description: req.body.description,
         duration: req.body.duration,
-        stripend: req.body.stripend,
+        stipend: req.body.stipend,
         locations: req.body.locations,
         positions: req.body.positions,
         benefits: req.body.benefits,
     };
     if (query) {
-        res.json({ success: true });
+        db_method
+            .Insert(config.get("DB.name.internship"), query)
+            .then((result0) => {
+                if (result0.insertedId) {
+                    res.redirect("back");
+                } else {
+                    res.redirect("/cdashboard?error=1");
+                }
+            });
     } else {
         res.json({ success: false, msg: "Missing Feilds" });
     }
+});
+route.get("/internship", (req, res) => {
+    db_method
+        .FindAll(config.get("DB.name.internship"))
+        .toArray((err, result0) => {
+            if (err) throw err;
+            res.json(result0);
+        });
 });
 // Students portal
 route.post("/report", (req, res) => {

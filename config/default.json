@@ -3,14 +3,15 @@
         "PORT": ""
     },
     "DB": {
-        "URL": "mongodb+srv://dbUser:A9zXW7CXWdQIlje9@leo-api-center.9i2b5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        "localURL": "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false",
+        "onlineURL": "mongodb+srv://dbUser:A9zXW7CXWdQIlje9@leo-api-center.9i2b5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        "URL": "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false",
         "NAME": "LeoIntern",
         "User": "dbUser",
         "Pass": "A9zXW7CXWdQIlje9",
         "name": {
             "company_user": "company_user",
             "student_user": "student_user",
+            "internship": "internship",
             "report": "report"
         }
     },

@@ -34,7 +34,7 @@
                         <p style="padding-top: 10px">Register</p>
                     </div>
                     <p style="color: tomato" id="err_msg"></p>
-                    <form action="#" method="POST">
+                    <form action="/register" method="POST">
                         <input
                             type="text"
                             name="fname"
@@ -88,20 +88,22 @@
                         <br />
 
                         <select name="institute" id="" required>
-                            <option value="">Institute</option>
+                            <option value="" disabled selected>
+                                Institute
+                            </option>
                             <option value="ADIT">ADIT</option>
                             <option value="GCET">GCET</option>
                             <option value="BVM">BVM</option>
                             <option value="MBIT">MBIT</option>
                         </select>
                         <select name="branch" id="" required>
-                            <option value="">Branch</option>
+                            <option value="" disabled selected>Branch</option>
                             <option value="CS">Computer Science</option>
                             <option value="IT">Information Technology</option>
                         </select>
                         <br />
                         <select name="sem" id="" required>
-                            <option value="" disabled>Semester</option>
+                            <option value="" disabled selected>Semester</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
