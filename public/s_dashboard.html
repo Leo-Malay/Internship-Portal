@@ -26,18 +26,19 @@
                     <div class="header-drop-down-content">
                         <a href="/">Home</a>
                         <a href="/contactus">Contact Us</a>
-                        <a href="#">
-                            <form action="/logout" method="post">
-                                <input
-                                    type="submit"
-                                    value="Logout"
-                                    style="
-                                        background-color: inherit;
-                                        color: inherit;
-                                    "
-                                />
-                            </form>
-                        </a>
+
+                        <form action="/logout" method="post">
+                            <input
+                                type="submit"
+                                value="Logout"
+                                style="
+                                    background-color: inherit;
+                                    color: inherit;
+                                    width: 100%;
+                                    text-align: left;
+                                "
+                            />
+                        </form>
                     </div>
                 </div>
             </div>
@@ -80,13 +81,133 @@
             <div id="4" class="tabcontent">
                 <center>
                     <p id="title">Profile</p>
+                    <div
+                        class="card"
+                        style="max-width: 600px; margin-top: 10px"
+                    >
+                        <table style="margin: 10px auto">
+                            <tr>
+                                <td>
+                                    <label for="fname">First Name</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="fname"
+                                        id="in_fname"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="lname">Last Name</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="lname"
+                                        id="in_lname"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="enrollment"
+                                        >Enrollment No.</label
+                                    >
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="enrollment"
+                                        id="in_enrollment"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="mobile">Mobile</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="mobile"
+                                        id="in_mobile"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="institute">Institute</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="institute"
+                                        id="in_institute"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="branch">Branch</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="branch"
+                                        id="in_branch"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="sem">Semester</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="sem"
+                                        id="in_sem"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <label for="cgpa">CGPA</label>
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        name="cgpa"
+                                        id="in_cgpa"
+                                        readonly
+                                    />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </center>
             </div>
             <div id="5" class="tabcontent">
                 <center>
                     <p id="title">Report</p>
 
-                    <p style="width: 50%; padding: 1vw">
+                    <p style="max-width: 70%; padding: 1vw; font-size: 14px">
                         Please tell us in detail what happened! Even you feel
                         like it's wrong but its not, Dont worry Just report it.
                         It will help us imporve over website and it's services.
@@ -99,6 +220,7 @@
                             cols="50"
                             rows="10"
                             placeholder="Mentions names/numbers which will help us get to the issue more faster"
+                            style="padding: 10px"
                         ></textarea>
                         <br />
                         <input
@@ -130,10 +252,10 @@
                 document.getElementById("greet").innerText +=
                     " " + up.get("name");
                 display_internship();
+                display_profile();
             });
 
             function display_internship() {
-                console.log(1);
                 res = "";
                 $.get("/internship", function (data, status) {
                     if (status == "success") {
@@ -159,6 +281,28 @@
                         });
                     }
                     document.getElementById("internship_post").innerHTML = res;
+                });
+            }
+            function display_profile() {
+                var res = "";
+                $.get("/sdash", function (data, status) {
+                    if (status == "success") {
+                        document.getElementById("in_fname").value =
+                            data.data.fname;
+                        document.getElementById("in_lname").value =
+                            data.data.lname;
+                        document.getElementById("in_enrollment").value =
+                            data.data.enrollment;
+                        document.getElementById("in_mobile").value =
+                            data.data.mobile;
+                        document.getElementById("in_institute").value =
+                            data.data.institute;
+                        document.getElementById("in_branch").value =
+                            data.data.branch;
+                        document.getElementById("in_sem").value = data.data.sem;
+                        document.getElementById("in_cgpa").value =
+                            data.data.cgpa;
+                    }
                 });
             }
         </script>

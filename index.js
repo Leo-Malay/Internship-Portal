@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 const config = require("config");
 const bcrypt = require("bcrypt");
+const url = require("url");
 const cookieParser = require("cookie-parser");
+const sessions = require("express-session");
 const db = require("./db");
 const db_method = require("./db_method");
 const { GenToken, VerifyToken } = require("./token");
@@ -21,13 +23,17 @@ route.get("/contactus", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/ContactUs.html"));
 });
 route.get("/login", (req, res) => {
-    var token = VerifyToken(req.cookies.token);
-    console.log(token.data);
-    if (token.success == true) {
-        if (token.data.type == "company") {
-            res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
+    var session = req.session;
+    console.log(session?.data);
+    if (session.data) {
+        if (session.data.type == "company") {
+            res.sendFile(path.join(__dirname + "/public/c_dashboard.html"), {
+                name: session.data.fname,
+            });
         } else {
-            res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
+            res.sendFile(path.join(__dirname + "/public/s_dashboard.html"), {
+                name: session.data.fname,
+            });
         }
     } else {
         res.sendFile(path.join(__dirname + "/public/Login.html"));
@@ -37,19 +43,37 @@ route.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname + "/public/Register.html"));
 });
 route.get("/cdashboard", (req, res) => {
-    var token = VerifyToken(req.cookies.token);
-    if (token.success == true && token.data.type == "company") {
-        res.sendFile(path.join(__dirname + "/public/c_dashboard.html"));
+    var session = req.session;
+    if (session?.data) {
+        res.sendFile(path.join(__dirname + "/public/c_dashboard.html"), {
+            name: session.fname,
+        });
     } else {
-        res.redirect("/");
+        res.redirect(
+            url.format({
+                pathname: "/login",
+                query: {
+                    type: "company",
+                },
+            })
+        );
     }
 });
 route.get("/sdashboard", (req, res) => {
-    var token = VerifyToken(req.cookies.token);
-    if (token.success == true && token.data.type == "student") {
-        res.sendFile(path.join(__dirname + "/public/s_dashboard.html"));
+    var session = req.session;
+    if (session?.data) {
+        res.sendFile(path.join(__dirname + "/public/s_dashboard.html"), {
+            name: session.fname,
+        });
     } else {
-        res.redirect("/");
+        res.redirect(
+            url.format({
+                pathname: "/login",
+                query: {
+                    type: "student",
+                },
+            })
+        );
     }
 });
 // Login and Registration
@@ -69,7 +93,14 @@ route.post("/register", (req, res) => {
         token: "",
     };
     if (query.password !== req.body.cpassword) {
-        res.redirect("/register?error=3");
+        res.redirect(
+            url.format({
+                pathname: "/register",
+                query: {
+                    error: 3,
+                },
+            })
+        );
     } else if (
         query.fname &&
         query.lname &&
@@ -88,7 +119,14 @@ route.post("/register", (req, res) => {
             })
             .then((result0) => {
                 if (result0) {
-                    res.redirect("/register?error=4");
+                    res.redirect(
+                        url.format({
+                            pathname: "/register",
+                            query: {
+                                error: 4,
+                            },
+                        })
+                    );
                 } else {
                     bcrypt.hash(
                         query.password,
@@ -103,9 +141,23 @@ route.post("/register", (req, res) => {
                                 )
                                 .then((result1) => {
                                     if (result1.insertedId) {
-                                        res.redirect("/login?type=student");
+                                        res.redirect(
+                                            url.format({
+                                                pathname: "/login",
+                                                query: {
+                                                    type: "student",
+                                                },
+                                            })
+                                        );
                                     } else {
-                                        res.redirect("/register?error=1");
+                                        res.redirect(
+                                            url.format({
+                                                pathname: "/register",
+                                                query: {
+                                                    error: 1,
+                                                },
+                                            })
+                                        );
                                     }
                                 });
                         }
@@ -113,7 +165,14 @@ route.post("/register", (req, res) => {
                 }
             });
     } else {
-        res.redirect("/register?error=2");
+        res.redirect(
+            url.format({
+                pathname: "/register",
+                query: {
+                    error: 2,
+                },
+            })
+        );
     }
 });
 route.post("/login", (req, res) => {
@@ -132,7 +191,14 @@ route.post("/login", (req, res) => {
                 .then((result0) => {
                     if (result0 === null) {
                         res.redirect(
-                            "/login?type=company&error=1&msg=Unable to find your account"
+                            url.format({
+                                pathname: "/login",
+                                query: {
+                                    type: "company",
+                                    error: 1,
+                                    msg: "Unable to find your account",
+                                },
+                            })
                         );
                     } else {
                         bcrypt.compare(
@@ -165,20 +231,45 @@ route.post("/login", (req, res) => {
                                                 result1.lastErrorObject
                                                     .updatedExisting === true
                                             ) {
-                                                res.cookie("token", token);
+                                                var session = req.session;
+                                                session.data = {
+                                                    createDate: Date.now(),
+                                                    type: "company",
+                                                    _id: result0._id,
+                                                    fname: result0.fname,
+                                                    token: token,
+                                                };
                                                 res.redirect(
-                                                    "/cdashboard?name=" +
-                                                        result0.fname
+                                                    url.format({
+                                                        pathname: "/sdashboard",
+                                                        query: {
+                                                            name: result0.fname,
+                                                        },
+                                                    })
                                                 );
                                             } else {
                                                 res.redirect(
-                                                    "/login?type=company&error=1&msg=Unable to Generate Token"
+                                                    url.format({
+                                                        pathname: "/login",
+                                                        query: {
+                                                            type: "company",
+                                                            error: 1,
+                                                            msg: "Unable to generate token",
+                                                        },
+                                                    })
                                                 );
                                             }
                                         });
                                 } else {
                                     res.redirect(
-                                        "/login?type=company&error=1&msg=Incorrect Password"
+                                        url.format({
+                                            pathname: "/login",
+                                            query: {
+                                                type: "company",
+                                                error: 1,
+                                                msg: "Incorrect Password",
+                                            },
+                                        })
                                     );
                                 }
                             }
@@ -194,7 +285,14 @@ route.post("/login", (req, res) => {
                 .then((result0) => {
                     if (result0 === null) {
                         res.redirect(
-                            "/login?type=student&error=1&msg=Unable to find your account"
+                            url.format({
+                                pathname: "/login",
+                                query: {
+                                    type: "student",
+                                    error: 1,
+                                    msg: "Unable to find your account",
+                                },
+                            })
                         );
                     } else {
                         bcrypt.compare(
@@ -227,20 +325,44 @@ route.post("/login", (req, res) => {
                                                 result1.lastErrorObject
                                                     .updatedExisting === true
                                             ) {
-                                                res.cookie("token", token);
+                                                var session = req.session;
+                                                session.data = {
+                                                    createDate: Date.now(),
+                                                    type: "student",
+                                                    _id: result0._id,
+                                                    fname: result0.fname,
+                                                };
                                                 res.redirect(
-                                                    "/sdashboard?name=" +
-                                                        result0.fname
+                                                    url.format({
+                                                        pathname: "/sdashboard",
+                                                        query: {
+                                                            name: result0.fname,
+                                                        },
+                                                    })
                                                 );
                                             } else {
                                                 res.redirect(
-                                                    "/login?type=student&error=1&msg=Unable to Generate Token"
+                                                    url.format({
+                                                        pathname: "/login",
+                                                        query: {
+                                                            type: "student",
+                                                            error: 1,
+                                                            msg: "Unable to gen token",
+                                                        },
+                                                    })
                                                 );
                                             }
                                         });
                                 } else {
                                     res.redirect(
-                                        "/login?type=student&error=1&msg=Incorrect Password"
+                                        url.format({
+                                            pathname: "/login",
+                                            query: {
+                                                type: "student",
+                                                error: 1,
+                                                msg: "Incorrect Password",
+                                            },
+                                        })
                                     );
                                 }
                             }
@@ -249,10 +371,20 @@ route.post("/login", (req, res) => {
                 });
         }
     } else {
-        res.redirect("/login?type=student&error=1&msg=Missing Feilds");
+        res.redirect(
+            url.format({
+                pathname: "/login",
+                query: {
+                    type: "student",
+                    error: 1,
+                    msg: "Missing Feilds",
+                },
+            })
+        );
     }
 });
 route.post("/logout", (req, res) => {
+    req.session.destroy();
     res.clearCookie("token");
     res.redirect("/");
 });
@@ -267,6 +399,7 @@ route.post("/add_internship", (req, res) => {
         locations: req.body.locations,
         positions: req.body.positions,
         benefits: req.body.benefits,
+        applicants: [],
     };
     if (query) {
         db_method
@@ -275,7 +408,14 @@ route.post("/add_internship", (req, res) => {
                 if (result0.insertedId) {
                     res.redirect("back");
                 } else {
-                    res.redirect("/cdashboard?error=1");
+                    res.redirect(
+                        url.format({
+                            pathname: "/cdashboard",
+                            query: {
+                                error: 1,
+                            },
+                        })
+                    );
                 }
             });
     } else {
@@ -317,11 +457,36 @@ route.post("/report", (req, res) => {
         res.json({ success: false, msg: "Invalid Token" });
     }
 });
+route.get("/sdash", (req, res) => {
+    var session = req.session;
+    db_method
+        .Find(config.get("DB.name.student_user"), {
+            _id: db.getOID(session.data._id),
+            isDeleted: 0,
+        })
+        .then((result0) => {
+            console.log(result0);
+            if (result0) {
+                res.json({ success: true, data: result0 });
+            } else {
+                res.json({ success: false, data: [] });
+            }
+        });
+});
 // Configuring the apps.
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: !0 }));
 app.use(express.json());
 app.use(cookieParser());
+const oneHour = 1000 * 60 * 60;
+app.use(
+    sessions({
+        secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+        saveUninitialized: true,
+        cookie: { maxAge: oneHour },
+        resave: false,
+    })
+);
 app.use("/", route);
 // listening at port 8080
 db.connect((err) => {
