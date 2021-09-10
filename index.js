@@ -24,7 +24,6 @@ route.get("/contactus", (req, res) => {
 });
 route.get("/login", (req, res) => {
     var session = req.session;
-    console.log(session?.data);
     if (session.data) {
         if (session.data.type == "company") {
             res.sendFile(path.join(__dirname + "/public/c_dashboard.html"), {
@@ -90,7 +89,8 @@ route.post("/register", (req, res) => {
         password: req.body.password,
         isDeleted: 0,
         createDate: Date.now(),
-        token: "",
+        token: null,
+        application: [],
     };
     if (query.password !== req.body.cpassword) {
         res.redirect(
@@ -241,7 +241,7 @@ route.post("/login", (req, res) => {
                                                 };
                                                 res.redirect(
                                                     url.format({
-                                                        pathname: "/sdashboard",
+                                                        pathname: "/cdashboard",
                                                         query: {
                                                             name: result0.fname,
                                                         },
@@ -400,6 +400,7 @@ route.post("/add_internship", (req, res) => {
         positions: req.body.positions,
         benefits: req.body.benefits,
         applicants: [],
+        isDeleted: 0,
     };
     if (query) {
         db_method
@@ -432,9 +433,10 @@ route.get("/internship", (req, res) => {
 });
 // Students portal
 route.post("/report", (req, res) => {
-    var token = VerifyToken(req.cookies.token);
-    if (token.success == true) {
+    var session = req.session;
+    if (session?.data) {
         var query = {
+            student_id: session.data._id,
             details: req.body.details,
             isResolved: 0,
             isDeleted: 0,
@@ -465,9 +467,82 @@ route.get("/sdash", (req, res) => {
             isDeleted: 0,
         })
         .then((result0) => {
-            console.log(result0);
             if (result0) {
                 res.json({ success: true, data: result0 });
+            } else {
+                res.json({ success: false, data: [] });
+            }
+        });
+});
+route.post("/apply", (req, res) => {
+    var session = req.session;
+    if (session?.data) {
+        db_method
+            .InsertArray(
+                config.get("DB.name.student_user"),
+                {
+                    _id: db.getOID(session.data._id),
+                    isDeleted: 0,
+                },
+                {
+                    application: {
+                        app_id: req.body.app_id,
+                        createDate: Date.now(),
+                    },
+                }
+            )
+            .then((result0) => {
+                if (result0) {
+                    db_method
+                        .InsertArray(
+                            config.get("DB.name.internship"),
+                            {
+                                _id: db.getOID(req.body.app_id),
+                                isDeleted: 0,
+                            },
+                            {
+                                applicants: {
+                                    student_id: String(session.data._id),
+                                    createDate: Date.now(),
+                                },
+                            }
+                        )
+                        .then((result1) => {
+                            if (result1) {
+                                res.json({ success: true });
+                            } else {
+                                res.json({ success: false });
+                            }
+                        });
+                } else {
+                    res.json({ success: false });
+                }
+            });
+    } else {
+        res.redirect("/login?type=student");
+    }
+});
+route.get("/myapplication", (req, res) => {
+    var session = req.session;
+    db_method
+        .Find(config.get("DB.name.student_user"), {
+            _id: db.getOID(session.data._id),
+            isDeleted: 0,
+        })
+        .then((result0) => {
+            if (result0) {
+                db_method
+                    .FindAll(config.get("DB.name.internship"), {
+                        _id: {
+                            $in: result0.application.map((val, index) => {
+                                return db.getOID(val.app_id);
+                            }),
+                        },
+                    })
+                    .toArray((err, result1) => {
+                        if (err) throw err;
+                        res.json({ success: true, data: result1 });
+                    });
             } else {
                 res.json({ success: false, data: [] });
             }

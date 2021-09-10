@@ -12,6 +12,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="/JS/gen.js"></script>
         <script src="/JS/tab.js"></script>
+        <script src="/JS/student.js"></script>
     </head>
     <body>
         <div class="header">
@@ -51,7 +52,10 @@
                 <button class="tabbtn" onclick="openTab(event, '2')">
                     View Internships
                 </button>
-                <button class="tabbtn" onclick="openTab(event, '3')">
+                <button
+                    class="tabbtn"
+                    onclick="openTab(event, '3');display_application();"
+                >
                     My Applications
                 </button>
                 <button class="tabbtn" onclick="openTab(event, '4')">
@@ -77,6 +81,7 @@
                 <center>
                     <p id="title">My Applications</p>
                 </center>
+                <div class="app_post" id="app_post"></div>
             </div>
             <div id="4" class="tabcontent">
                 <center>
@@ -85,121 +90,132 @@
                         class="card"
                         style="max-width: 600px; margin-top: 10px"
                     >
-                        <table style="margin: 10px auto">
-                            <tr>
-                                <td>
-                                    <label for="fname">First Name</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="fname"
-                                        id="in_fname"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                        <form>
+                            <table style="margin: 10px auto">
+                                <tr>
+                                    <td>
+                                        <label for="fname">First Name</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="fname"
+                                            id="in_fname"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="lname">Last Name</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="lname"
-                                        id="in_lname"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="lname">Last Name</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="lname"
+                                            id="in_lname"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="enrollment"
-                                        >Enrollment No.</label
-                                    >
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="enrollment"
-                                        id="in_enrollment"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="enrollment"
+                                            >Enrollment No.</label
+                                        >
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            name="enrollment"
+                                            id="in_enrollment"
+                                            readonly
+                                            disabled
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="mobile">Mobile</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="mobile"
-                                        id="in_mobile"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="mobile">Mobile</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="mobile"
+                                            id="in_mobile"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="institute">Institute</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="institute"
-                                        id="in_institute"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="institute">Institute</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="institute"
+                                            id="in_institute"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="branch">Branch</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="branch"
-                                        id="in_branch"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="branch">Branch</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="branch"
+                                            id="in_branch"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="sem">Semester</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="sem"
-                                        id="in_sem"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <label for="sem">Semester</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="sem"
+                                            id="in_sem"
+                                        />
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td>
-                                    <label for="cgpa">CGPA</label>
-                                </td>
-                                <td>
-                                    <input
-                                        type="text"
-                                        name="cgpa"
-                                        id="in_cgpa"
-                                        readonly
-                                    />
-                                </td>
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td>
+                                        <label for="cgpa">CGPA</label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="profile_in"
+                                            type="text"
+                                            name="cgpa"
+                                            id="in_cgpa"
+                                        />
+                                    </td>
+                                </tr>
+                            </table>
+                            <input
+                                type="button"
+                                value="Update"
+                                id="update_btn"
+                                onclick="profile_update()"
+                                style="background-color: mediumseagreen"
+                            />
+                            <input type="button" value="Delete" id="false" />
+                        </form>
                     </div>
                 </center>
             </div>
@@ -253,58 +269,8 @@
                     " " + up.get("name");
                 display_internship();
                 display_profile();
+                profile_update();
             });
-
-            function display_internship() {
-                res = "";
-                $.get("/internship", function (data, status) {
-                    if (status == "success") {
-                        data.map((ele) => {
-                            res +=
-                                '<div class="post"><div class="left"><p id="heading">' +
-                                ele.title +
-                                '</p><p id="desc">' +
-                                ele.description +
-                                '</p><table id="body"><tr><td><b>Company</b></td><td>' +
-                                ele.company +
-                                "</td></tr><tr><td><b>Duration</b></td><td>" +
-                                ele.duration +
-                                " Months</td></tr><tr><td><b>Stipend</b></td><td>$" +
-                                ele.stipend +
-                                "/month</td></tr><tr><td><b>Location</b> </td> <td>" +
-                                ele.locations +
-                                "</td></tr><tr><td><b>Positions</b></td><td>" +
-                                ele.positions +
-                                "</td></tr><tr><td><b>Benefits</b></td><td>" +
-                                ele.benefits +
-                                '</td> </tr></table></div><div class="right"><input type="button"value="Contact Us"id="primary"/><br /><input type="button"value="Apply Now"id="primary"/><br /><input type="button" value="Save" id="primary" /></div></div>';
-                        });
-                    }
-                    document.getElementById("internship_post").innerHTML = res;
-                });
-            }
-            function display_profile() {
-                var res = "";
-                $.get("/sdash", function (data, status) {
-                    if (status == "success") {
-                        document.getElementById("in_fname").value =
-                            data.data.fname;
-                        document.getElementById("in_lname").value =
-                            data.data.lname;
-                        document.getElementById("in_enrollment").value =
-                            data.data.enrollment;
-                        document.getElementById("in_mobile").value =
-                            data.data.mobile;
-                        document.getElementById("in_institute").value =
-                            data.data.institute;
-                        document.getElementById("in_branch").value =
-                            data.data.branch;
-                        document.getElementById("in_sem").value = data.data.sem;
-                        document.getElementById("in_cgpa").value =
-                            data.data.cgpa;
-                    }
-                });
-            }
         </script>
     </body>
 </html>

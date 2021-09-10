@@ -12,6 +12,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="/JS/gen.js"></script>
         <script src="/JS/tab.js"></script>
+        <script src="/JS/company.js"></script>
     </head>
     <body>
         <div class="header">
@@ -55,7 +56,10 @@
                 <button class="tabbtn" onclick="openTab(event, '4')">
                     Add Internship
                 </button>
-                <button class="tabbtn" onclick="openTab(event, '5')">
+                <button
+                    class="tabbtn"
+                    onclick="openTab(event, '5');display_internship()"
+                >
                     View Internships
                 </button>
             </div>
@@ -160,74 +164,7 @@
                 <center>
                     <p id="title">View Internships</p>
                 </center>
-                <div class="applications">
-                    <div class="post">
-                        <div class="left">
-                            <p id="heading">Software Development Internship</p>
-                            <p id="desc">
-                                Collobrate with team members to developed
-                                cutting edge softwares.
-                            </p>
-                            <table id="body">
-                                <tr>
-                                    <td>
-                                        <b>Company</b>
-                                    </td>
-                                    <td>LeoTech Inc</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <b>Duration</b>
-                                    </td>
-                                    <td>2 Months</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <b>stipend</b>
-                                    </td>
-                                    <td>$300/month</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <b>Location</b>
-                                    </td>
-                                    <td>Anand, Gujarat</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <b>Positions</b>
-                                    </td>
-                                    <td>31</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <b>Benefits</b>
-                                    </td>
-                                    <td>Completion Certificate & Goodies</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="right">
-                            <input
-                                type="button"
-                                value="Contact Us"
-                                id="primary"
-                            /><br />
-                            <input
-                                type="button"
-                                value="Apply Now"
-                                id="primary"
-                            />
-                            <br />
-                            <input type="button" value="Save" id="primary" />
-                        </div>
-                    </div>
-                </div>
+                <div class="internship_post" id="internship_post"></div>
             </div>
         </div>
         <div class="footer">
