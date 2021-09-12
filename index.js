@@ -24,15 +24,31 @@ route.get("/contactus", (req, res) => {
 });
 route.get("/login", (req, res) => {
     var session = req.session;
-    if (session.data) {
-        if (session.data.type == "company") {
-            res.sendFile(path.join(__dirname + "/public/c_dashboard.html"), {
-                name: session.data.fname,
-            });
+    if (session?.data) {
+        if (session.data.type == "company" && req.query.type == "company") {
+            res.redirect(
+                url.format({
+                    pathname: "/cdashboard",
+                    query: {
+                        name: session.data.fname,
+                    },
+                })
+            );
+        } else if (
+            session.data.type == "student" &&
+            req.query.type == "student"
+        ) {
+            res.redirect(
+                url.format({
+                    pathname: "/sdashboard",
+                    query: {
+                        name: session.data.fname,
+                    },
+                })
+            );
         } else {
-            res.sendFile(path.join(__dirname + "/public/s_dashboard.html"), {
-                name: session.data.fname,
-            });
+            req.session.destroy();
+            res.redirect("back");
         }
     } else {
         res.sendFile(path.join(__dirname + "/public/Login.html"));
@@ -43,7 +59,7 @@ route.get("/register", (req, res) => {
 });
 route.get("/cdashboard", (req, res) => {
     var session = req.session;
-    if (session?.data) {
+    if (session?.data && session?.data.type == "company") {
         res.sendFile(path.join(__dirname + "/public/c_dashboard.html"), {
             name: session.fname,
         });
@@ -60,7 +76,7 @@ route.get("/cdashboard", (req, res) => {
 });
 route.get("/sdashboard", (req, res) => {
     var session = req.session;
-    if (session?.data) {
+    if (session?.data && session?.data.type == "student") {
         res.sendFile(path.join(__dirname + "/public/s_dashboard.html"), {
             name: session.fname,
         });
@@ -386,41 +402,47 @@ route.post("/login", (req, res) => {
 route.post("/logout", (req, res) => {
     req.session.destroy();
     res.clearCookie("token");
-    res.redirect("/");
+    res.redirect("back");
 });
 // Company portal
 route.post("/add_internship", (req, res) => {
-    var query = {
-        title: req.body.title,
-        company: req.body.company,
-        description: req.body.description,
-        duration: req.body.duration,
-        stipend: req.body.stipend,
-        locations: req.body.locations,
-        positions: req.body.positions,
-        benefits: req.body.benefits,
-        applicants: [],
-        isDeleted: 0,
-    };
-    if (query) {
-        db_method
-            .Insert(config.get("DB.name.internship"), query)
-            .then((result0) => {
-                if (result0.insertedId) {
-                    res.redirect("back");
-                } else {
-                    res.redirect(
-                        url.format({
-                            pathname: "/cdashboard",
-                            query: {
-                                error: 1,
-                            },
-                        })
-                    );
-                }
-            });
+    var session = req.session;
+    if (session?.data) {
+        var query = {
+            title: req.body.title,
+            company: req.body.company,
+            description: req.body.description,
+            duration: req.body.duration,
+            stipend: req.body.stipend,
+            locations: req.body.locations,
+            positions: req.body.positions,
+            benefits: req.body.benefits,
+            applicants: [],
+            createdBy: session.data._id,
+            isDeleted: 0,
+        };
+        if (query) {
+            db_method
+                .Insert(config.get("DB.name.internship"), query)
+                .then((result0) => {
+                    if (result0.insertedId) {
+                        res.redirect("back");
+                    } else {
+                        res.redirect(
+                            url.format({
+                                pathname: "/cdashboard",
+                                query: {
+                                    error: 1,
+                                },
+                            })
+                        );
+                    }
+                });
+        } else {
+            res.json({ success: false, msg: "Missing Feilds" });
+        }
     } else {
-        res.json({ success: false, msg: "Missing Feilds" });
+        res.redirect("/login?type=company");
     }
 });
 route.get("/internship", (req, res) => {
@@ -429,6 +451,51 @@ route.get("/internship", (req, res) => {
         .toArray((err, result0) => {
             if (err) throw err;
             res.json(result0);
+        });
+});
+route.get("/application_company", (req, res) => {
+    var session = req.session;
+    if (session?.data) {
+        db_method
+            .FindAll(config.get("DB.name.internship"), {
+                createdBy: session.data._id,
+                isDeleted: 0,
+            })
+            .toArray((err, result0) => {
+                if (err) throw err;
+                if (result0) {
+                    res.json({
+                        success: true,
+                        data: result0.map((val, index) => {
+                            return val.applicants.map((val1, index1) => {
+                                return val1.student_id;
+                            });
+                        }),
+                    });
+                } else {
+                    res.json({ success: false, data: [] });
+                }
+            });
+    } else {
+        res.redirect("/login?type=company");
+    }
+});
+route.get("/application_student", (req, res) => {
+    db_method
+        .Find(config.get("DB.name.student_user"), {
+            _id: db.getOID(req.query.student_id),
+            isDeleted: 0,
+        })
+        .then((result1) => {
+            res.json({
+                success: true,
+                data: {
+                    enrollment: result1.enrollment,
+                    fname: result1.fname,
+                    lname: result1.lname,
+                    cgpa: result1.cgpa,
+                },
+            });
         });
 });
 // Students portal
@@ -461,18 +528,22 @@ route.post("/report", (req, res) => {
 });
 route.get("/sdash", (req, res) => {
     var session = req.session;
-    db_method
-        .Find(config.get("DB.name.student_user"), {
-            _id: db.getOID(session.data._id),
-            isDeleted: 0,
-        })
-        .then((result0) => {
-            if (result0) {
-                res.json({ success: true, data: result0 });
-            } else {
-                res.json({ success: false, data: [] });
-            }
-        });
+    if (session?.data) {
+        db_method
+            .Find(config.get("DB.name.student_user"), {
+                _id: db.getOID(session.data._id),
+                isDeleted: 0,
+            })
+            .then((result0) => {
+                if (result0) {
+                    res.json({ success: true, data: result0 });
+                } else {
+                    res.json({ success: false, data: [] });
+                }
+            });
+    } else {
+        res.redirect("/login");
+    }
 });
 route.post("/apply", (req, res) => {
     var session = req.session;

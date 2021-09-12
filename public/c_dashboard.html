@@ -4,6 +4,9 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Cache-Control" content="no-cache" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
         <title>Internship || Company Dashboard</title>
         <link rel="stylesheet" href="/CSS/gen.css" />
         <link rel="stylesheet" href="/CSS/headfoot.css" />
@@ -47,7 +50,10 @@
                 <button class="tabbtn" onclick="openTab(event, '1')">
                     Home
                 </button>
-                <button class="tabbtn" onclick="openTab(event, '2')">
+                <button
+                    class="tabbtn"
+                    onclick="openTab(event, '2');display_applicants()"
+                >
                     Review Application
                 </button>
                 <button class="tabbtn" onclick="openTab(event, '3')">
@@ -73,6 +79,7 @@
                 <center>
                     <p id="title">Review Applications</p>
                 </center>
+                <div class="review_post" id="review_post"></div>
             </div>
             <div id="3" class="tabcontent">
                 <center>
