@@ -1,3 +1,4 @@
+/* Malay Bhavsar (Leo-Malay) */
 function display_internship() {
     res = "";
     $.get("/internship", function (data, status) {

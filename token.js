@@ -1,3 +1,4 @@
+/* Malay Bhavsar (Leo-Malay) */
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
